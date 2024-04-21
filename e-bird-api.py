@@ -318,8 +318,8 @@ def connection_exception_caller(request):
 #print(pretty_json_builder(view_checklist_by_id("S168902821")))
 #print(pretty_json_builder(view_checklist_by_id("S169427154"))) #sparrowhawk spotting
 #print(make_scientific_dataframe_from_csv('data/ebird-taxonomy.csv', local_bird_scientific_list))
+#print(make_dataframe_from_species_code_list('data/ebird-taxonomy.csv', species_code_list_of_region(bourgoyen_ossemeersen_id))) #region = bourgoyen
 #print(make_dataframe_from_species_code_list('data/ebird-taxonomy.csv', species_code_list_of_region(apple_orchard_beiaard_id))) #region = apple orchard beiaard
-print(make_dataframe_from_species_code_list('data/ebird-taxonomy.csv', species_code_list_of_region(bourgoyen_ossemeersen_id))) #region = bourgoyen
 
 
 #print(region_info("BE"))
@@ -328,6 +328,7 @@ print(make_dataframe_from_species_code_list('data/ebird-taxonomy.csv', species_c
 #print(pretty_json_builder(recent_observations_by_region("BE")))
 #print(make_dataframe_from_list_of_dict(view_checklist_by_id("S169398828")))
 #print(find_nearby_hotspots(apple_orchard_beiaard_lat, apple_orchard_beiaard_long))
+
 
 #NUTHATCH API
 #print(pretty_json_builder(get_birds()))
