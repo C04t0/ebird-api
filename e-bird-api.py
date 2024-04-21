@@ -2,16 +2,34 @@ import csv
 import json
 import pandas as pd
 import requests as rq
+from requests import JSONDecodeError
+
 #EBIRD API
 api_key = "2hig7s0jt391"
 header = {"x-ebirdapitoken": api_key}
 base_url = "https://api.ebird.org/v2"
 
-vinderhoutse_bossen_lat = 51.080706
-vinderhoutse_bossen_long = 3.650348
+vinderhoute_durmeers = "L13909784"
+vinderhoute_durmeers_lat = 51.0871423
+vinderhoute_durmeers_long = 3.6546237
 
+
+vinderhoutse_bossen = "L11300818"
+vinderhoutse_bossen_lat = 51.0776865
+vinderhoutse_bossen_long = 3.65155
+
+bourgoyen_ossemeersen_id = "L13536525"
+bourgoyen_ossemmeersen_lat = 51.0551747
+bourgoyen_ossemmeersen_long = 3.6764048
+
+apple_orchard_beiaard_id = "L30676179"
 apple_orchard_beiaard_lat = 51.09968
 apple_orchard_beiaard_long = 3.63135
+
+stewart_park_id = "L99381" #Stewart Park, Tompkins, New York, US location id
+stewart_park_lat = 42.4613413
+sterwart_park_long = -76.5054578
+stewart_park_region_code = "US-NY-109" #country-subnational1-subnational2
 
 #NUTHATCH API
 def get_birds():
@@ -126,10 +144,12 @@ def nearest_observation_of_species(latitude, longitude, species_code):
     return response.json()
 
 #nearby notable observations by latitude / longitude
+
 def nearby_notable_observations(latitude, longitude):
     response = connection_exception_caller(rq.get(f'{base_url}/data/obs/geo/recent/notable?lat={latitude}&lng={longitude}'))
     return response.json()
 #recent checklists entered
+
 def recent_checklists_feed(region_code):
     response = connection_exception_caller(rq.get(f'{base_url}/product/lists/{region_code}'))
     return response.json()
@@ -178,10 +198,12 @@ def find_hotspots_in_region(region_code):
     return response.json()
 
 
-# find nearby hotspots by latitude and longitude
+# find nearby hotspots by latitude and longitude -!BUG - JSONDecode error-
+# ! DEBUG ! -> fix jsonDecode error
 def find_nearby_hotspots(latitude, longitude):
     response = connection_exception_caller(rq.get(f'{base_url}/ref/hotspot/geo?lat={latitude}&lng={longitude}', headers=header))
     return response.json()
+
 
 
 def hotspot_info(hotspot_id):
@@ -287,13 +309,18 @@ def connection_exception_caller(request):
         return request
     except ConnectionError:
         print("Connection to API failed.")
+    except JSONDecodeError as e:
+        print(e.strerror)
 
+#print(pretty_json_builder(region_info("BE")))
+#print(pretty_json_builder(region_info(apple_orchard_beiaard_id)))
+#print(species_code_list_of_region(apple_orchard_beiaard_id))
+#print(pretty_json_builder(view_checklist_by_id("S168902821")))
+#print(pretty_json_builder(view_checklist_by_id("S169427154"))) #sparrowhawk spotting
+#print(make_scientific_dataframe_from_csv('data/ebird-taxonomy.csv', local_bird_scientific_list))
+#print(make_dataframe_from_species_code_list('data/ebird-taxonomy.csv', species_code_list_of_region(apple_orchard_beiaard_id))) #region = apple orchard beiaard
+print(make_dataframe_from_species_code_list('data/ebird-taxonomy.csv', species_code_list_of_region(bourgoyen_ossemeersen_id))) #region = bourgoyen
 
-print(pretty_json_builder(region_info("BE")))
-print(species_code_list_of_region("L30676179"))
-print(pretty_json_builder(view_checklist_by_id("S168902821")))
-print(make_scientific_dataframe_from_csv('data/ebird-taxonomy.csv', local_bird_scientific_list))
-print(make_dataframe_from_species_code_list('data/ebird-taxonomy.csv', species_code_list_of_region("L30676179")))
 
 #print(region_info("BE"))
 #print(hotspot_info())
@@ -304,3 +331,4 @@ print(make_dataframe_from_species_code_list('data/ebird-taxonomy.csv', species_c
 
 #NUTHATCH API
 #print(pretty_json_builder(get_birds()))
+#print(pretty_json_builder(find_bird_by_name('Coal Tit', get_birds())))
