@@ -314,7 +314,7 @@ def connection_exception_caller(request):
 
 #print(pretty_json_builder(region_info("BE")))
 #print(pretty_json_builder(region_info(apple_orchard_beiaard_id)))
-#print(species_code_list_of_region(apple_orchard_beiaard_id))
+print(species_code_list_of_region(apple_orchard_beiaard_id))
 #print(pretty_json_builder(view_checklist_by_id("S168902821")))
 #print(pretty_json_builder(view_checklist_by_id("S169427154"))) #sparrowhawk spotting
 #print(make_scientific_dataframe_from_csv('data/ebird-taxonomy.csv', local_bird_scientific_list))
